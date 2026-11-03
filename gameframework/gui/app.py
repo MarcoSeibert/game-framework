@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 
-from gameframework.gui.theme import BASIC_FONT, TITLE_FONT
+from gameframework.gui.theme import TITLE_FONT, configure_styles
 from gameframework.registry import get_game, registered_games
 
 
@@ -10,6 +10,7 @@ class GameApp(tk.Tk):
 
     def __init__(self, game_name: str, options: dict = None) -> None:
         super().__init__()
+        configure_styles()
         self.definition = get_game(game_name)
         self.title(self.definition.name)
         self.options = options if options else {}
@@ -28,6 +29,7 @@ class StartApp(tk.Tk):
 
     def __init__(self) -> None:
         super().__init__()
+        configure_styles()
         self.title("Game Framework")
         self.geometry("520x320")
         self.resizable(False, False)
@@ -42,12 +44,17 @@ class StartApp(tk.Tk):
                 text=text,
                 variable=self.chosen_game,
                 value=name,
-                font=BASIC_FONT,
+                style="Basic.TRadiobutton",
             ).pack(anchor="w", padx=40)
         ttk.Button(
-            self, text="Spielen!", font=BASIC_FONT, command=self.start_selected
+            self,
+            text="Spielen!",
+            style="Basic.TButton",
+            command=self.start_selected,
         ).pack(pady=10)
-        ttk.Button(self, text="Beenden", font=BASIC_FONT, command=self.destroy).pack()
+        ttk.Button(
+            self, text="Beenden", style="Basic.TButton", command=self.destroy
+        ).pack()
 
     def start_selected(self) -> None:
         name = self.chosen_game.get()

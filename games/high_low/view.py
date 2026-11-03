@@ -25,10 +25,10 @@ class HighLowView(BaseView):
         button_frame = ttk.Frame(self)
         button_frame.pack(pady=10)
         ttk.Button(
-            button_frame, text="Höher", font=BASIC_FONT, command=self.on_higher
+            button_frame, text="Höher", style="Basic.TButton", command=self.on_higher
         ).pack(side="left", padx=5)
         ttk.Button(
-            button_frame, text="Tiefer", font=BASIC_FONT, command=self.on_lower
+            button_frame, text="Tiefer", style="Basic.TButton", command=self.on_lower
         ).pack(side="left", padx=5)
 
     def on_higher(self) -> None:

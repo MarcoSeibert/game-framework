@@ -98,7 +98,7 @@ class MeinSpielController(BaseController):
         self.view.show_result(event.data["result"])
 ```
 
-**3. View** – tkinter-Widgets:
+**3. View** – tkinter-Widgets (Hinweis: `ttk.Button`/`ttk.Radiobutton` nehmen kein `font=` entgegen, sondern einen Style – die Styles `Basic.TButton`/`Basic.TRadiobutton` konfiguriert `GameApp`/`StartApp` automatisch über `theme.configure_styles()`):
 
 ```python
 # games/meinspiel/view.py
@@ -111,7 +111,7 @@ class MeinSpielView(BaseView):
         super().__init__(parent, title="Mein Spiel")
         self.status = ttk.Label(self, text="", font=BASIC_FONT)
         self.status.pack(pady=10)
-        ttk.Button(self, text="Raten!", font=BASIC_FONT,
+        ttk.Button(self, text="Raten!", style="Basic.TButton",
                    command=self.on_button).pack()
 
     def on_button(self):
@@ -169,7 +169,13 @@ Beim nächsten `python main.py` erscheint das Spiel automatisch im Startmenü.
 python -m unittest discover -v
 ```
 
-Alle Tests laufen ohne Display (nur der GUI-freie Kern wird getestet). Zum Syntax-Check der GUI-Dateien genügt `python -m compileall gameframework games main.py`.
+Alle Unit-Tests laufen ohne Display (nur der GUI-freie Kern wird getestet). Für einen GUI-Smoke-Test (baut Startmenü und ein komplettes Spiel auf) braucht es ein virtuelles Display:
+
+```bash
+xvfb-run -a python smoke_test_gui.py
+```
+
+Zum Syntax-Check der GUI-Dateien genügt `python -m compileall gameframework games main.py smoke_test_gui.py`. In CI laufen beide Prüfungen automatisch (siehe `.github/workflows/tests.yml`).
 
 ## Projektstruktur
 
